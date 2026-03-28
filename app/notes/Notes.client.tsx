@@ -10,7 +10,7 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 import NoteList from "@/components/NoteList/NoteList";
 import CreateNoteForm from "@/components/CreateNoteForm/CreateNoteForm";
 
-import { fetchNotes } from "@/lib/api/api";
+import { fetchNotes } from "@/lib/api";
 
 export default function NotesClient() {
   const [page, setPage] = useState(1);
