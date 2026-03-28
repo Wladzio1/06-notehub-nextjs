@@ -44,17 +44,22 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
       onSubmit={(values) => mutation.mutate(values)}
     >
       <Form className={css.form}>
+        {/* TITLE */}
         <div className={css.formGroup}>
           <label>Title</label>
           <Field name="title" className={css.input} />
           <ErrorMessage name="title" component="span" className={css.error} />
         </div>
 
+        {/* CONTENT */}
         <div className={css.formGroup}>
           <label>Content</label>
           <Field as="textarea" name="content" className={css.textarea} />
+          {/* ✅ BRAKUJĄCE */}
+          <ErrorMessage name="content" component="span" className={css.error} />
         </div>
 
+        {/* TAG */}
         <div className={css.formGroup}>
           <label>Tag</label>
           <Field as="select" name="tag" className={css.select}>
@@ -64,6 +69,8 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
+          {/* ✅ BRAKUJĄCE */}
+          <ErrorMessage name="tag" component="span" className={css.error} />
         </div>
 
         <div className={css.actions}>
