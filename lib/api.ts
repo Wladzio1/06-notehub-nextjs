@@ -15,12 +15,13 @@ export interface CreateNotePayload {
   tag: string;
 }
 
+// ✅ GET LIST
 export async function fetchNotes(
   page: number,
   perPage: number,
   search: string,
 ): Promise<FetchNotesResponse> {
-  const res = await axios.get(BASE_URL, {
+  const res = await axios.get<FetchNotesResponse>(BASE_URL, {
     params: { page, perPage, search },
     headers: {
       Authorization: `Bearer ${TOKEN}`,
@@ -30,8 +31,9 @@ export async function fetchNotes(
   return res.data;
 }
 
+// ✅ GET BY ID
 export async function fetchNoteById(id: string): Promise<Note> {
-  const res = await axios.get(`${BASE_URL}/${id}`, {
+  const res = await axios.get<Note>(`${BASE_URL}/${id}`, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },
@@ -40,8 +42,9 @@ export async function fetchNoteById(id: string): Promise<Note> {
   return res.data;
 }
 
-export async function createNote(payload: CreateNotePayload) {
-  const res = await axios.post(BASE_URL, payload, {
+// ✅ CREATE
+export async function createNote(payload: CreateNotePayload): Promise<Note> {
+  const res = await axios.post<Note>(BASE_URL, payload, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },
@@ -50,8 +53,9 @@ export async function createNote(payload: CreateNotePayload) {
   return res.data;
 }
 
-export async function deleteNote(id: string) {
-  const res = await axios.delete(`${BASE_URL}/${id}`, {
+// ✅ DELETE
+export async function deleteNote(id: string): Promise<Note> {
+  const res = await axios.delete<Note>(`${BASE_URL}/${id}`, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },

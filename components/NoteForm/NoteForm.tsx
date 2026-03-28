@@ -6,13 +6,17 @@ import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api";
 
+interface NoteFormProps {
+  onCancel: () => void;
+}
+
 interface Values {
   title: string;
   content: string;
-  tag: string;
+  tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 }
 
-export default function NoteForm({ onCancel }: { onCancel: () => void }) {
+export default function NoteForm({ onCancel }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -33,7 +37,9 @@ export default function NoteForm({ onCancel }: { onCancel: () => void }) {
       validationSchema={Yup.object({
         title: Yup.string().min(3).max(50).required(),
         content: Yup.string().max(500),
-        tag: Yup.string().required(),
+        tag: Yup.mixed<Values["tag"]>()
+          .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"])
+          .required(),
       })}
       onSubmit={(values) => mutation.mutate(values)}
     >
@@ -47,7 +53,6 @@ export default function NoteForm({ onCancel }: { onCancel: () => void }) {
         <div className={css.formGroup}>
           <label>Content</label>
           <Field as="textarea" name="content" className={css.textarea} />
-          <ErrorMessage name="content" component="span" className={css.error} />
         </div>
 
         <div className={css.formGroup}>
@@ -59,7 +64,6 @@ export default function NoteForm({ onCancel }: { onCancel: () => void }) {
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
-          <ErrorMessage name="tag" component="span" className={css.error} />
         </div>
 
         <div className={css.actions}>
